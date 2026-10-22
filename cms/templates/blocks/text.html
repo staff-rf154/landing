@@ -1,0 +1,11 @@
+{% from "_macros.html" import bg_style, anchor %}
+<section class="section{{ ' section-alt' if b.alt }}" id="{{ anchor(b) }}" {{ bg_style(b, 'linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92))')|safe }}>
+  <div class="wrap">
+    <div class="section-head">
+      {% if b.eyebrow %}<p class="eyebrow">{{ b.eyebrow }}</p>{% endif %}
+      <h2>{{ b.title }}</h2>
+      {% if b.lead %}<p class="section-lead">{{ b.lead }}</p>{% endif %}
+    </div>
+    {% if b.body %}<div class="rich-text">{{ b.body|safe }}</div>{% endif %}
+  </div>
+</section>

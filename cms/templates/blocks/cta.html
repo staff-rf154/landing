@@ -1,0 +1,23 @@
+{% from "_macros.html" import bg_style, anchor %}
+<section class="cta" id="{{ anchor(b) }}" {{ bg_style(b, 'linear-gradient(rgba(15,23,42,.84),rgba(15,23,42,.84))')|safe }}>
+  <div class="wrap cta-inner">
+    <div>
+      <h2>{{ b.title }}</h2>
+      {% if b.text %}<p>{{ b.text }}</p>{% endif %}
+      {% if b.contacts %}
+      <div class="contact-list">
+        {% for c in b.contacts %}
+        <a class="contact-link" href="{{ c.href }}">
+          <span class="ico" aria-hidden="true">{{ c.icon }}</span>{{ c.label }}
+        </a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% if b.buttons %}
+    <div class="cta-actions">
+      {% for a in b.buttons %}<a class="btn btn-{{ a.style or 'primary' }}" href="{{ a.href }}">{{ a.label }}</a>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>

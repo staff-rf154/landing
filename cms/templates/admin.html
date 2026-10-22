@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Редактор сайта — Staff RF</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/admin/static/admin.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-brand"><span class="brand-mark">SR</span><span>Staff <b>RF</b> · редактор сайта</span></div>
+  <div class="topbar-actions">
+    <span id="save-status" class="save-status"></span>
+    <button id="toggle-preview" class="btn-ghost" type="button">Превью</button>
+    <a class="btn-ghost" href="/" target="_blank" rel="noopener">Открыть сайт</a>
+    <form method="post" action="/admin/logout"><button class="btn-ghost" type="submit">Выйти</button></form>
+  </div>
+</header>
+
+<div class="layout" id="layout">
+  <aside class="sidebar">
+    <div class="tabs">
+      <button class="tab is-active" data-tab="blocks" type="button">Блоки</button>
+      <button class="tab" data-tab="settings" type="button">Настройки</button>
+    </div>
+    <div id="block-list" class="block-list"></div>
+    <div class="add-block" id="add-block">
+      <select id="add-type"></select>
+      <button id="add-btn" class="btn-primary" type="button">Добавить блок</button>
+    </div>
+    <p class="sidebar-hint">Блоки можно перетаскивать мышью или двигать ↑ ↓, отключать и удалять. Изменения публикуются кнопкой «Сохранить».</p>
+  </aside>
+
+  <section class="editor">
+    <div class="editor-bar">
+      <h2 id="editor-title">Контент</h2>
+      <button id="save-btn" class="btn-primary" type="button">Сохранить</button>
+    </div>
+    <div id="editor-body" class="editor-body"></div>
+  </section>
+
+  <section class="preview">
+    <div class="preview-bar">
+      <div class="device-btns">
+        <button class="device is-active" data-width="desktop" type="button" title="Десктоп">▭</button>
+        <button class="device" data-width="tablet" type="button" title="Планшет">▯</button>
+        <button class="device" data-width="mobile" type="button" title="Телефон">▯</button>
+      </div>
+      <button id="refresh-preview" class="btn-ghost" type="button">Обновить</button>
+      <button id="close-preview" class="btn-ghost close-preview" type="button">Закрыть</button>
+    </div>
+    <div class="preview-frame" id="preview-frame">
+      <iframe id="preview" src="/preview" title="Предпросмотр сайта"></iframe>
+    </div>
+  </section>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script id="blocks-schema" type="application/json">{{ blocks_schema|safe }}</script>
+<script id="settings-schema" type="application/json">{{ settings_schema|safe }}</script>
+<script id="block-defaults" type="application/json">{{ defaults|safe }}</script>
+<script src="/admin/static/admin.js"></script>
+</body>
+</html>

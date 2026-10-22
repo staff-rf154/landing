@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ s.site_title }}</title>
+  <meta name="description" content="{{ s.site_description }}">
+  <meta name="keywords" content="Staff RF, Табель, учёт рабочего времени, QR-табель, СКУД, отчёты Т-13, RAG, база знаний, LLM, Qdrant, Ollama, мониторинг MikroTik, MKT Monitoring, Grafana, Prometheus, Loki, Alertmanager, cAdvisor, Docker">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="{{ s.brand }}">
+  <meta name="theme-color" content="{{ s.bg }}">
+  <link rel="canonical" href="{{ canonical }}">
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/favicon.png">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="{{ s.brand }}">
+  <meta property="og:url" content="{{ canonical }}">
+  <meta property="og:title" content="{{ s.site_title }}">
+  <meta property="og:description" content="{{ s.site_description }}">
+  <meta property="og:image" content="{{ og_image }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ s.site_title }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ s.site_title }}">
+  <meta name="twitter:description" content="{{ s.site_description }}">
+  <meta name="twitter:image" content="{{ og_image }}">
+
+  <link rel="stylesheet" href="/styles.css">
+  <style>{{ css_vars|safe }}{{ custom_css|safe }}</style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{ canonical }}#organization",
+        "name": "Staff RF",
+        "url": "{{ canonical }}",
+        "logo": "{{ canonical }}assets/favicon.png",
+        "image": "{{ canonical }}assets/og-cover.png",
+        "email": "staff-rf@ya.ru",
+        "telephone": "+7-923-706-10-09",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "staff-rf@ya.ru",
+          "telephone": "+7-923-706-10-09",
+          "availableLanguage": ["ru"]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ canonical }}#website",
+        "url": "{{ canonical }}",
+        "name": "Staff RF",
+        "inLanguage": "ru-RU",
+        "publisher": { "@id": "{{ canonical }}#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "{{ canonical }}#webpage",
+        "url": "{{ canonical }}",
+        "name": "Staff RF — Табель, RAG-ассистент и MKT Monitoring",
+        "description": "Корпоративные системы: QR-учёт рабочего времени, локальный RAG-ассистент по документации и мониторинг MikroTik и серверов.",
+        "inLanguage": "ru-RU",
+        "isPartOf": { "@id": "{{ canonical }}#website" },
+        "about": { "@id": "{{ canonical }}#organization" },
+        "primaryImageOfPage": "{{ canonical }}assets/og-cover.png",
+        "dateModified": "2026-10-22"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Табель — QR-учёт рабочего времени",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Система табелирования: отметки по подписанным QR-кодам, графики и смены, геозоны офисов, отчёты Т-13, делегирование прав, интеграция с 1С и мобильное приложение.",
+        "url": "{{ canonical }}#tabel",
+        "featureList": [
+          "QR-отметки прихода и ухода",
+          "Графики 5/2, 2/2 и произвольные",
+          "Геозоны офисов и переработки",
+          "Отчёты Т-13 и выгрузка в CSV/Excel",
+          "Роли и делегирование прав",
+          "Интеграция с 1С:УПП/ЗУП",
+          "Мобильное приложение Flutter"
+        ],
+        "publisher": { "@id": "{{ canonical }}#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "RAG-ассистент по внутренней документации",
+        "applicationCategory": "KnowledgeManagementApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Локальная RAG-платформа: ответы на вопросы по корпоративной документации с цитатами и ссылками на источники, гибридный поиск, автообучение и кабинет администратора.",
+        "url": "{{ canonical }}#llm",
+        "featureList": [
+          "Гибридный поиск dense + BM25",
+          "Переранжирование и синонимы",
+          "PDF, Office, EPUB, HTML и сайты",
+          "Цитаты и ссылки на документы и страницы",
+          "Исправления, уроки и автообучение",
+          "Локальная LLM без внешних сервисов",
+          "Prometheus-метрики и readiness"
+        ],
+        "publisher": { "@id": "{{ canonical }}#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "MKT Monitoring",
+        "applicationCategory": "NetworkManagementApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Стек мониторинга MikroTik и серверов: сбор метрик через RouterOS API, дашборды Grafana, логи в Loki, алерты в Telegram и контроль контейнеров.",
+        "url": "{{ canonical }}#mkt",
+        "featureList": [
+          "Метрики MikroTik через RouterOS API",
+          "96 панелей MikroTik в Grafana",
+          "Логи роутеров в Loki",
+          "8 правил алертинга в Telegram",
+          "ICMP-проверки Blackbox",
+          "Метрики контейнеров и хоста",
+          "Мониторинг VPN Amnezia WG"
+        ],
+        "publisher": { "@id": "{{ canonical }}#organization" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="{{ s.brand }} — на главную">
+      <span class="brand-mark" aria-hidden="true">{{ s.brand_mark }}</span>
+      {% set parts = (s.brand or 'Staff RF').split(' ') %}
+      <span class="brand-text">{{ parts[:-1]|join(' ') }} <span class="brand-accent">{{ parts[-1] }}</span></span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="Основная навигация">
+      {% for item in s.nav %}
+      <a href="{{ item.href }}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+    <a class="btn btn-ghost header-cta" href="#contacts">Связаться</a>
+    <button class="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  {% for b in blocks %}
+  {% include "blocks/" + b.type + ".html" %}
+  {% endfor %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">{{ s.brand_mark }}</span>
+      <div>
+        <p class="footer-name">{{ s.brand }}</p>
+        <p class="footer-note">{{ s.footer_note }}</p>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="Ссылки в подвале">
+      {% for item in s.footer_links %}
+      <a href="{{ item.href }}">{{ item.label }}</a>
+      {% endfor %}
+      <a href="#top">Наверх</a>
+    </nav>
+    <div class="footer-contacts">
+      {% for item in s.footer_contacts %}
+      <a href="{{ item.href }}">{{ item.label }}</a>
+      {% endfor %}
+    </div>
+    <p class="footer-copy">{{ s.footer_copyright }}</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр скриншота" hidden>
+  <button class="lightbox-close" type="button" aria-label="Закрыть">×</button>
+  <figure>
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>

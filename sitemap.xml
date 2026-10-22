@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://srv.staff-rf.ru/</loc>
+    <lastmod>2026-10-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://srv.staff-rf.ru/assets/og-cover.png</image:loc>
+      <image:title>Staff RF — Табель, RAG-ассистент и MKT Monitoring</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://srv.staff-rf.ru/assets/screens/tabel-reports.png</image:loc>
+      <image:title>Табель — отчёты по отработанному времени</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://srv.staff-rf.ru/assets/screens/llm-chat.png</image:loc>
+      <image:title>RAG-ассистент — чат с ответами по документации</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://srv.staff-rf.ru/assets/screens/mkt-grafana.png</image:loc>
+      <image:title>MKT Monitoring — дашборд Grafana</image:title>
+    </image:image>
+  </url>
+</urlset>

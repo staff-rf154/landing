@@ -1,0 +1,40 @@
+{% from "_macros.html" import bg_style, anchor %}
+<section class="section{{ ' section-alt' if b.alt }}" id="{{ anchor(b) }}" {{ bg_style(b, 'linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92))')|safe }}>
+  <div class="wrap">
+    <div class="section-head">
+      {% if b.eyebrow %}<p class="eyebrow">{{ b.eyebrow }}</p>{% endif %}
+      <h2>{{ b.title }}</h2>
+      {% if b.lead %}<p class="section-lead">{{ b.lead }}</p>{% endif %}
+    </div>
+
+    {% if b.cards %}
+    <div class="monitor-grid">
+      {% for card in b.cards %}
+      <article class="monitor-card">
+        <header>
+          <span class="monitor-dot" aria-hidden="true"></span>
+          <h3>{{ card.title }}</h3>
+        </header>
+        {% if card.endpoints %}
+        <ul class="endpoints">
+          {% for e in card.endpoints %}<li><code>{{ e.code }}</code><span>{{ e.text|safe }}</span></li>{% endfor %}
+        </ul>
+        {% endif %}
+        {% if card.note %}<p class="monitor-note">{{ card.note }}</p>{% endif %}
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if b.pillars %}
+    <div class="pillars">
+      {% for p in b.pillars %}
+      <article class="pillar">
+        <h3>{{ p.title }}</h3>
+        <p>{{ p.text|safe }}</p>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>

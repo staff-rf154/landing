@@ -1,0 +1,6 @@
+cms.env
+__pycache__/
+*.pyc
+.backup/
+content/backups/
+content/uploads/

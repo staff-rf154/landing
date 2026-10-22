@@ -1,0 +1,56 @@
+services:
+  landing:
+    image: nginx:1.27-alpine
+    container_name: landing-web-1
+    restart: unless-stopped
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./styles.css:/usr/share/nginx/html/styles.css:ro
+      - ./app.js:/usr/share/nginx/html/app.js:ro
+      - ./robots.txt:/usr/share/nginx/html/robots.txt:ro
+      - ./sitemap.xml:/usr/share/nginx/html/sitemap.xml:ro
+      - ./e93abb77d7c6937715c3c6b4c515e556.txt:/usr/share/nginx/html/e93abb77d7c6937715c3c6b4c515e556.txt:ro
+      - ./assets:/usr/share/nginx/html/assets:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - default
+      - tabel
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  cms:
+    build: ./cms
+    container_name: landing-cms
+    restart: unless-stopped
+    env_file: ./cms.env
+    environment:
+      DATA_DIR: /data
+      SITE_DIR: /srv/site
+    volumes:
+      - ./content:/data
+      - ./cms/templates:/app/templates:ro
+      - ./cms/static:/app/static:ro
+      - ./styles.css:/srv/site/styles.css:ro
+      - ./app.js:/srv/site/app.js:ro
+      - ./robots.txt:/srv/site/robots.txt:ro
+      - ./sitemap.xml:/srv/site/sitemap.xml:ro
+      - ./e93abb77d7c6937715c3c6b4c515e556.txt:/srv/site/e93abb77d7c6937715c3c6b4c515e556.txt:ro
+      - ./assets:/srv/site/assets:ro
+    networks:
+      - default
+      - tabel
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  tabel:
+    name: tabel_tabel
+    external: true

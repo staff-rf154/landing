@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Вход в панель — Staff RF</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="stylesheet" href="/admin/static/admin.css">
+</head>
+<body class="login-page">
+  <form class="login-card" method="post" action="/admin/login">
+    <div class="login-brand"><span class="brand-mark">SR</span><span>Staff <b>RF</b></span></div>
+    <h1>Панель управления сайтом</h1>
+    <p class="login-hint">Вход только для администратора.</p>
+    {% if error %}<div class="login-error">{{ error }}</div>{% endif %}
+    <label>Логин<input type="text" name="username" value="admin" autocomplete="username" required></label>
+    <label>Пароль<input type="password" name="password" autocomplete="current-password" required autofocus></label>
+    <button class="btn-primary" type="submit">Войти</button>
+  </form>
+</body>
+</html>

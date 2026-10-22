@@ -1,0 +1,58 @@
+{% from "_macros.html" import bg_style, anchor %}
+<section class="section{{ ' section-alt' if b.alt }}" id="{{ anchor(b) }}" {{ bg_style(b, 'linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92))')|safe }}>
+  <div class="wrap">
+    <div class="product-head">
+      <div>
+        {% if b.eyebrow %}<p class="eyebrow">{{ b.eyebrow }}</p>{% endif %}
+        <h2>{{ b.title }}</h2>
+        {% if b.lead %}<p class="section-lead">{{ b.lead }}</p>{% endif %}
+        {% if b.chips %}
+        <ul class="chips" aria-label="Технологии">
+          {% for c in b.chips %}<li>{{ c }}</li>{% endfor %}
+        </ul>
+        {% endif %}
+      </div>
+      {% if b.actions or b.hint %}
+      <div class="head-actions">
+        {% for a in b.actions %}<a class="btn btn-{{ a.style or 'primary' }}" href="{{ a.href }}">{{ a.label }}</a>{% endfor %}
+        {% if b.hint %}<p class="hint">{{ b.hint|safe }}</p>{% endif %}
+      </div>
+      {% endif %}
+    </div>
+
+    {% if b.features %}
+    <div class="feature-grid">
+      {% for item in b.features %}
+      <article class="feature">
+        <div class="feature-icon" aria-hidden="true">{{ item.icon }}</div>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.text|safe }}</p>
+      </article>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if b.gallery and b.gallery.images %}
+    <div class="gallery-block">
+      <div class="gallery-head">
+        <h3>{{ b.gallery.title }}</h3>
+        {% if b.gallery.note %}<p>{{ b.gallery.note }}</p>{% endif %}
+      </div>
+      <div class="gallery gallery-{{ b.gallery.columns or '3' }}" data-gallery>
+        {% for img in b.gallery.images %}
+        <button class="shot" type="button" data-full="{{ img.src }}" data-caption="{{ img.caption }}">
+          <img src="{{ img.src }}" alt="{{ img.alt }}" loading="lazy">
+          <span>{{ img.label }}</span>
+        </button>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if b.deploy %}
+    <div class="deploy-strip">
+      {% for d in b.deploy %}<div><span class="k">{{ d.k }}</span><span class="v">{{ d.v }}</span></div>{% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>

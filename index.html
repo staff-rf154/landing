@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff RF — Табель, RAG-ассистент и MKT Monitoring</title>
+  <meta name="description" content="Staff RF: QR-учёт рабочего времени «Табель», локальный RAG-ассистент по документации и MKT Monitoring — мониторинг MikroTik, серверов и контейнеров в Grafana. On-premise, Docker Compose, Prometheus.">
+  <meta name="keywords" content="Staff RF, Табель, учёт рабочего времени, QR-табель, СКУД, отчёты Т-13, RAG, база знаний, LLM, Qdrant, Ollama, мониторинг MikroTik, MKT Monitoring, Grafana, Prometheus, Loki, Alertmanager, cAdvisor, Docker">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+  <meta name="author" content="Staff RF">
+  <meta name="theme-color" content="#0b1020">
+  <link rel="canonical" href="https://srv.staff-rf.ru/">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:site_name" content="Staff RF">
+  <meta property="og:url" content="https://srv.staff-rf.ru/">
+  <meta property="og:title" content="Staff RF — Табель, RAG-ассистент и MKT Monitoring">
+  <meta property="og:description" content="QR-учёт рабочего времени, локальная база знаний с ответами по документации и мониторинг MikroTik и серверов. On-premise, Docker Compose, готовы к мониторингу.">
+  <meta property="og:image" content="https://srv.staff-rf.ru/assets/og-cover.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Staff RF — корпоративные системы учёта, знаний и мониторинга">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Staff RF — Табель, RAG-ассистент и MKT Monitoring">
+  <meta name="twitter:description" content="QR-учёт рабочего времени, локальная база знаний и мониторинг MikroTik и серверов. On-premise, Docker Compose.">
+  <meta name="twitter:image" content="https://srv.staff-rf.ru/assets/og-cover.png">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://srv.staff-rf.ru/#organization",
+        "name": "Staff RF",
+        "url": "https://srv.staff-rf.ru/",
+        "logo": "https://srv.staff-rf.ru/assets/favicon.png",
+        "image": "https://srv.staff-rf.ru/assets/og-cover.png",
+        "email": "staff-rf@ya.ru",
+        "telephone": "+7-923-706-10-09",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "sales",
+          "email": "staff-rf@ya.ru",
+          "telephone": "+7-923-706-10-09",
+          "availableLanguage": ["ru"]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://srv.staff-rf.ru/#website",
+        "url": "https://srv.staff-rf.ru/",
+        "name": "Staff RF",
+        "inLanguage": "ru-RU",
+        "publisher": { "@id": "https://srv.staff-rf.ru/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://srv.staff-rf.ru/#webpage",
+        "url": "https://srv.staff-rf.ru/",
+        "name": "Staff RF — Табель, RAG-ассистент и MKT Monitoring",
+        "description": "Корпоративные системы: QR-учёт рабочего времени, локальный RAG-ассистент по документации и мониторинг MikroTik и серверов.",
+        "inLanguage": "ru-RU",
+        "isPartOf": { "@id": "https://srv.staff-rf.ru/#website" },
+        "about": { "@id": "https://srv.staff-rf.ru/#organization" },
+        "primaryImageOfPage": "https://srv.staff-rf.ru/assets/og-cover.png",
+        "dateModified": "2026-10-22"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Табель — QR-учёт рабочего времени",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Система табелирования: отметки по подписанным QR-кодам, графики и смены, геозоны офисов, отчёты Т-13, делегирование прав, интеграция с 1С и мобильное приложение.",
+        "url": "https://srv.staff-rf.ru/#tabel",
+        "featureList": [
+          "QR-отметки прихода и ухода",
+          "Графики 5/2, 2/2 и произвольные",
+          "Геозоны офисов и переработки",
+          "Отчёты Т-13 и выгрузка в CSV/Excel",
+          "Роли и делегирование прав",
+          "Интеграция с 1С:УПП/ЗУП",
+          "Мобильное приложение Flutter"
+        ],
+        "publisher": { "@id": "https://srv.staff-rf.ru/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "RAG-ассистент по внутренней документации",
+        "applicationCategory": "KnowledgeManagementApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Локальная RAG-платформа: ответы на вопросы по корпоративной документации с цитатами и ссылками на источники, гибридный поиск, автообучение и кабинет администратора.",
+        "url": "https://srv.staff-rf.ru/#llm",
+        "featureList": [
+          "Гибридный поиск dense + BM25",
+          "Переранжирование и синонимы",
+          "PDF, Office, EPUB, HTML и сайты",
+          "Цитаты и ссылки на документы и страницы",
+          "Исправления, уроки и автообучение",
+          "Локальная LLM без внешних сервисов",
+          "Prometheus-метрики и readiness"
+        ],
+        "publisher": { "@id": "https://srv.staff-rf.ru/#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "MKT Monitoring",
+        "applicationCategory": "NetworkManagementApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Стек мониторинга MikroTik и серверов: сбор метрик через RouterOS API, дашборды Grafana, логи в Loki, алерты в Telegram и контроль контейнеров.",
+        "url": "https://srv.staff-rf.ru/#mkt",
+        "featureList": [
+          "Метрики MikroTik через RouterOS API",
+          "96 панелей MikroTik в Grafana",
+          "Логи роутеров в Loki",
+          "8 правил алертинга в Telegram",
+          "ICMP-проверки Blackbox",
+          "Метрики контейнеров и хоста",
+          "Мониторинг VPN Amnezia WG"
+        ],
+        "publisher": { "@id": "https://srv.staff-rf.ru/#organization" }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<header class="site-header" id="top">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top" aria-label="Staff RF — на главную">
+      <span class="brand-mark" aria-hidden="true">SR</span>
+      <span class="brand-text">Staff <span class="brand-accent">RF</span></span>
+    </a>
+    <nav class="nav" id="site-nav" aria-label="Основная навигация">
+      <a href="#tabel">Табель</a>
+      <a href="#llm">RAG-ассистент</a>
+      <a href="#mkt">MKT Monitoring</a>
+      <a href="#monitoring">Мониторинг</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="btn btn-ghost header-cta" href="#contacts">Связаться</a>
+    <button class="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="site-nav">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <p class="eyebrow">Staff RF · корпоративные системы · on-premise</p>
+      <h1>Учёт, знания и сеть — <span class="grad">под вашим контролем</span></h1>
+      <p class="lead">
+        «Табель» — QR-учёт рабочего времени с отчётами Т-13 и мобильным приложением.
+        «RAG-ассистент» — локальная база знаний, которая отвечает по вашим документам
+        со ссылками на источники. «MKT Monitoring» — наблюдаемость MikroTik, серверов
+        и контейнеров в Grafana. Всё разворачивается on-premise, работает без внешних
+        сервисов и сводится в один мониторинг.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#tabel">Табель</a>
+        <a class="btn btn-outline" href="#llm">RAG-ассистент</a>
+        <a class="btn btn-outline" href="#mkt">MKT Monitoring</a>
+      </div>
+      <ul class="hero-facts">
+        <li><strong>3</strong> готовых продукта</li>
+        <li><strong>QR + геозоны</strong> контроль отметок</li>
+        <li><strong>CPU-only</strong> локальная LLM</li>
+        <li><strong>Prometheus + Grafana</strong> наблюдаемость</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="tabel">
+    <div class="wrap">
+      <div class="product-head">
+        <div>
+          <p class="eyebrow">Продукт 01 · Учёт рабочего времени</p>
+          <h2>Табель — QR-учёт рабочего времени</h2>
+          <p class="section-lead">
+            Система табелирования сотрудников: REST API, веб-панель администратора,
+            интерфейс оператора, приложение отчётов для руководителей и мобильное
+            приложение. Отметки прихода и ухода — по подписанным QR-кодам, с проверкой
+            геозоны офиса и автоматическим расчётом переработок.
+          </p>
+          <ul class="chips" aria-label="Технологии Табеля">
+            <li>Go 1.24</li><li>PostgreSQL 16</li><li>PgBouncer</li><li>Redis 7</li>
+            <li>React 18 + TypeScript</li><li>Flutter</li><li>Docker Compose</li>
+          </ul>
+        </div>
+        <div class="head-actions">
+          <a class="btn btn-primary" href="#contacts">Обсудить внедрение</a>
+          <p class="hint">Демо-доступ — по запросу.</p>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">QR</div>
+          <h3>Отметки по QR</h3>
+          <p>Токены подписываются ECDSA P-256 на сервере. Личные, статические и бумажные пропуска: печать PDF 85,6 × 53,98 мм, до 8 карточек на A4.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⏱</div>
+          <h3>Графики и смены</h3>
+          <p>5/2, 2/2 и произвольные графики, импорт из CSV, авто-закрытие предыдущей смены, переработки и ночные смены через полночь.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">◈</div>
+          <h3>Геозоны офисов</h3>
+          <p>Отметка вне офиса помечается флагом <code>outside_office</code>. Радиус зоны и офисы настраиваются, координаты видны на офлайн-карте.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">▤</div>
+          <h3>Отчёты и Т-13</h3>
+          <p>Сводный график, первый приход и последний выход, входы-выходы, приход-уход по дням, табель Т-13, смены, отметки и сводка. Выгрузка в CSV/Excel.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">◇</div>
+          <h3>Роли и делегирование</h3>
+          <p>Сотрудник, оператор, руководитель смены, директор, кадры и администратор. Передача прав оператора с подтверждением и автоматическим возвратом.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⇄</div>
+          <h3>Интеграции</h3>
+          <p>OAuth 2.0 client_credentials, IP-whitelist, выгрузка отметок с keyset-пагинацией, офлайн-импорт, справочники и графики для 1С:УПП/ЗУП.</p>
+        </article>
+      </div>
+
+      <div class="gallery-block">
+        <div class="gallery-head">
+          <h3>Интерфейсы системы</h3>
+          <p>Скриншоты из репозитория проекта. Нажмите на изображение, чтобы открыть его целиком.</p>
+        </div>
+        <div class="gallery" data-gallery>
+          <button class="shot" type="button" data-full="assets/screens/tabel-reports.png" data-caption="Сводный график отработанного времени за период">
+            <img src="assets/screens/tabel-reports.png" alt="Сводный график отработанного времени" loading="lazy">
+            <span>Сводный график</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/tabel-entries.png" data-caption="Входы и выходы с группировкой по сотруднику">
+            <img src="assets/screens/tabel-entries.png" alt="Входы и выходы с группировкой по сотруднику" loading="lazy">
+            <span>Входы и выходы</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/tabel-users.png" data-caption="Пользователи, роли и регистрация">
+            <img src="assets/screens/tabel-users.png" alt="Панель администратора: пользователи и роли" loading="lazy">
+            <span>Пользователи и роли</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/tabel-delegations.png" data-caption="Делегирование прав оператора">
+            <img src="assets/screens/tabel-delegations.png" alt="Делегирование прав оператора" loading="lazy">
+            <span>Делегирования</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/tabel-audit.png" data-caption="Журнал аудита с фильтрами">
+            <img src="assets/screens/tabel-audit.png" alt="Журнал аудита" loading="lazy">
+            <span>Аудит</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/tabel-settings.png" data-caption="Настройки организации, контактов и пропусков">
+            <img src="assets/screens/tabel-settings.png" alt="Настройки системы" loading="lazy">
+            <span>Настройки</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="deploy-strip">
+        <div><span class="k">Backend</span><span class="v">REST API · Go · роль admin/operator/employee</span></div>
+        <div><span class="k">Хранилище</span><span class="v">PostgreSQL 16 + PgBouncer · Redis 7 · Garage S3</span></div>
+        <div><span class="k">Клиенты</span><span class="v">web-admin · web-operator · reports-web · Flutter Android/iOS</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="llm">
+    <div class="wrap">
+      <div class="product-head">
+        <div>
+          <p class="eyebrow">Продукт 02 · Корпоративная база знаний</p>
+          <h2>RAG-ассистент по внутренней документации</h2>
+          <p class="section-lead">
+            Локальная RAG-платформа для ответов на вопросы по корпоративной документации:
+            FastAPI + Qdrant + Ollama + SQLite. Разворачивается в Docker Compose, работает
+            на CPU без GPU и не отправляет данные во внешние сервисы. Каждый ответ
+            сопровождается цитатами и ссылками на документы и страницы.
+          </p>
+          <ul class="chips" aria-label="Технологии RAG-ассистента">
+            <li>FastAPI</li><li>Qdrant</li><li>Ollama</li><li>SQLite</li>
+            <li>multilingual-e5-base</li><li>Docker Compose</li><li>Prometheus</li>
+          </ul>
+        </div>
+        <div class="head-actions">
+          <a class="btn btn-primary" href="#contacts">Обсудить внедрение</a>
+          <p class="hint">Локальная LLM <code>qwen2.5:3b-instruct</code>. Есть варианты запуска на NVIDIA и Vulkan.</p>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⌕</div>
+          <h3>Гибридный поиск</h3>
+          <p>Dense-эмбеддинги multilingual-e5-base плюс BM25, переранжирование, словарь синонимов и родительские фрагменты для полного контекста в ответе.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">▦</div>
+          <h3>Многоформатная индексация</h3>
+          <p>PDF с разбивкой по страницам, DOCX/PPTX, ODT/ODS/ODP, XLSX, Office 2003, EPUB, HTML, CSV/TSV, JSON/XML/YAML и индексация сайтов.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">❝</div>
+          <h3>Ответы с источниками</h3>
+          <p>Блок «Документация, из которой взят ответ» формируется кодом: названия документов, номера страниц и ссылки. Флаг <code>grounded</code> показывает отказ.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">↻</div>
+          <h3>Обучение на практике</h3>
+          <p>Оценки 👍/👎, исправления ответов со сверкой по документации, уроки администратора, автообучение и память похожих вопросов.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⚙</div>
+          <h3>Кабинет администратора</h3>
+          <p>Пользователи и роли, тенанты, статистика запросов, сферы деятельности, синонимы, стартовые промты, документация из кабинета и индексация без простоя.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">✓</div>
+          <h3>Проверка качества</h3>
+          <p>Генерация проверочных вопросов, первичное обучение по сфере, замеры латентности и супер-тест для контроля регрессий после изменений.</p>
+        </article>
+      </div>
+
+      <div class="gallery-block">
+        <div class="gallery-head">
+          <h3>Интерфейсы системы</h3>
+          <p>Чат, кабинет администратора, настройки пайплайна и автообучение.</p>
+        </div>
+        <div class="gallery gallery-4" data-gallery>
+          <button class="shot" type="button" data-full="assets/screens/llm-chat.png" data-caption="Чат: ответы по документации с цитатами и источниками">
+            <img src="assets/screens/llm-chat.png" alt="Чат RAG-ассистента" loading="lazy">
+            <span>Чат</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/llm-overview.png" data-caption="Обзор: запросы, оценки и статистика по дням">
+            <img src="assets/screens/llm-overview.png" alt="Обзор в кабинете администратора" loading="lazy">
+            <span>Обзор и статистика</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/llm-settings.png" data-caption="Настройки модели, поиска и чанкинга">
+            <img src="assets/screens/llm-settings.png" alt="Настройки модели и пайплайна" loading="lazy">
+            <span>Настройки пайплайна</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/llm-autolearn.png" data-caption="Автообучение и проверка на сгенерированных вопросах">
+            <img src="assets/screens/llm-autolearn.png" alt="Автообучение ассистента" loading="lazy">
+            <span>Автообучение</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="deploy-strip">
+        <div><span class="k">Контур</span><span class="v">полностью локально: Qdrant · Ollama · SQLite · FastAPI</span></div>
+        <div><span class="k">Требования</span><span class="v">~5 ГБ RAM для 3B-модели, от 8 CPU-ядер, ~1 ГБ под эмбеддинги</span></div>
+        <div><span class="k">Эксплуатация</span><span class="v">health/readiness · Prometheus · бэкапы · пауза и возобновление индексации</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="mkt">
+    <div class="wrap">
+      <div class="product-head">
+        <div>
+          <p class="eyebrow">Продукт 03 · Мониторинг инфраструктуры</p>
+          <h2>MKT Monitoring — наблюдаемость MikroTik и серверов</h2>
+          <p class="section-lead">
+            Стек мониторинга устройств MikroTik на Docker: сбор метрик через RouterOS API,
+            визуализация в Grafana, алертинг в Telegram и централизованный сбор логов
+            в Loki. Одиннадцать сервисов в общей сети собирают данные о роутерах,
+            каналах связи, VPN, контейнерах и самом сервере.
+          </p>
+          <ul class="chips" aria-label="Технологии MKT Monitoring">
+            <li>Prometheus</li><li>Grafana</li><li>Loki</li><li>Alertmanager</li>
+            <li>MKTXP</li><li>cAdvisor</li><li>node_exporter</li><li>Docker Compose</li>
+          </ul>
+        </div>
+        <div class="head-actions">
+          <a class="btn btn-primary" href="#contacts">Обсудить внедрение</a>
+          <p class="hint">RouterOS 7.x · API :8728 · syslog 514/601</p>
+        </div>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">◉</div>
+          <h3>Метрики MikroTik без SNMP</h3>
+          <p>Сбор через RouterOS API (MKTXP): 96 панелей и 73 метрики — CPU, память, температура, интерфейсы, очереди, WLAN/CAPsMAN, DHCP, BGP, firewall, netwatch.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">▤</div>
+          <h3>Логи роутеров</h3>
+          <p>syslog-ng принимает журналы по UDP 514 и TCP 601, Promtail передаёт их в Loki, а в Grafana доступен поиск по темам и строкам.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">!</div>
+          <h3>Алерты в Telegram</h3>
+          <p>Восемь правил Prometheus через Alertmanager: высокая нагрузка CPU и памяти, перегрев платы и CPU, недавняя перезагрузка, недоступность экспортёра, ping и задержки.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">▣</div>
+          <h3>Хост и контейнеры</h3>
+          <p>node_exporter и cAdvisor: 44 панели Docker Monitoring — CPU, память, сеть, диск, файловые системы и PSI-метрики давления по хосту и каждому контейнеру.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⌂</div>
+          <h3>VPN под наблюдением</h3>
+          <p>Amnezia WG Easy с экспортом метрик: настроенные и подключённые пиры, трафик по клиентам, handshake, throughput и статистика соединений.</p>
+        </article>
+        <article class="feature">
+          <div class="feature-icon" aria-hidden="true">⚙</div>
+          <h3>Один стек</h3>
+          <p>Все сервисы в сети monitoring, дашборды и datasources провижинятся автоматически, данные Grafana и Prometheus лежат в понятных каталогах.</p>
+        </article>
+      </div>
+
+      <div class="gallery-block">
+        <div class="gallery-head">
+          <h3>Дашборды</h3>
+          <p>Grafana, основной дашборд MikroTik, логи роутеров и состояние Prometheus.</p>
+        </div>
+        <div class="gallery gallery-4" data-gallery>
+          <button class="shot" type="button" data-full="assets/screens/mkt-grafana.png" data-caption="Grafana: обзорный дашборд со всеми сервисами">
+            <img src="assets/screens/mkt-grafana.png" alt="Grafana: обзорный дашборд" loading="lazy">
+            <span>Grafana</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/mkt-dashboard.png" data-caption="Mikrotik MKTXP Monitoring: 96 панелей">
+            <img src="assets/screens/mkt-dashboard.png" alt="Дашборд MikroTik в Grafana" loading="lazy">
+            <span>MikroTik</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/mkt-logs.png" data-caption="Mikrotik Loki Logs: журналы роутеров с поиском">
+            <img src="assets/screens/mkt-logs.png" alt="Логи MikroTik в Loki" loading="lazy">
+            <span>Логи</span>
+          </button>
+          <button class="shot" type="button" data-full="assets/screens/mkt-prometheus.png" data-caption="Prometheus: targets и состояние сбора метрик">
+            <img src="assets/screens/mkt-prometheus.png" alt="Prometheus: состояние сбора метрик" loading="lazy">
+            <span>Prometheus</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="deploy-strip">
+        <div><span class="k">Сервисы</span><span class="v">11 контейнеров: MKTXP, Prometheus, Grafana, Loki, Promtail, syslog-ng, Alertmanager, Blackbox, node_exporter, cAdvisor, Amnezia WG</span></div>
+        <div><span class="k">Сбор данных</span><span class="v">RouterOS API :8728 · syslog UDP 514 / TCP 601 · ICMP-проверки</span></div>
+        <div><span class="k">Алерты</span><span class="v">8 правил Prometheus → Alertmanager → Telegram · часовой пояс Asia/Novosibirsk</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="monitoring">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Наблюдаемость</p>
+        <h2>Всё сводится в один мониторинг</h2>
+        <p class="section-lead">
+          MKT Monitoring закрывает сеть, серверы и контейнеры, а «Табель» и RAG-ассистент
+          отдают health-эндпоинты и метрики. Prometheus и Grafana из MKT Monitoring
+          собирают общую картину, алерты уходят в Telegram — без зоопарка агентов
+          и внешних сервисов.
+        </p>
+      </div>
+
+      <div class="monitor-grid">
+        <article class="monitor-card">
+          <header>
+            <span class="monitor-dot" aria-hidden="true"></span>
+            <h3>Табель</h3>
+          </header>
+          <ul class="endpoints">
+            <li><code>GET /api/health</code><span>доступность API и базовая проверка сервиса</span></li>
+            <li><code>GET /api/ready</code><span>готовность backend к работе</span></li>
+            <li><code>healthcheck</code><span>backend, PostgreSQL, Redis и edge-nginx в Docker Compose</span></li>
+            <li><code>журнал аудита</code><span>входы, изменения настроек и действия пользователей</span></li>
+          </ul>
+          <p class="monitor-note">Дополнительно: уведомления в системе (автозакрытие смен, истечение QR, ошибки офлайн-импорта) и IP-whitelist для интеграций.</p>
+        </article>
+
+        <article class="monitor-card">
+          <header>
+            <span class="monitor-dot" aria-hidden="true"></span>
+            <h3>RAG-ассистент</h3>
+          </header>
+          <ul class="endpoints">
+            <li><code>GET /health</code><span>liveness: статус, коллекция, модели, устройство</span></li>
+            <li><code>GET /health?deep=1</code><span>readiness: Qdrant, алиас docs, Ollama и модель, запись в SQLite</span></li>
+            <li><code>GET /metrics</code><span>Prometheus: HTTP-метрики, <code>llm_retrieval_latency_seconds</code>, <code>llm_reindex_duration_seconds</code>, <code>llm_tokens_total</code></span></li>
+            <li><code>GET /reindex</code><span>прогресс переиндексации, пауза и продолжение</span></li>
+          </ul>
+          <p class="monitor-note">Метрики показывают качество работы ассистента: латентность поиска, объём токенов и длительность фоновой переиндексации.</p>
+        </article>
+      </div>
+
+      <div class="pillars">
+        <article class="pillar">
+          <h3>MKT Monitoring как фундамент</h3>
+          <p>Prometheus, Grafana, Loki и Alertmanager уже развёрнуты. «Табель» и RAG-ассистент добавляются как targets, а дашборды и алерты живут рядом, в одном стеке.</p>
+        </article>
+        <article class="pillar">
+          <h3>Данные остаются внутри</h3>
+          <p>Все продукты разворачиваются on-premise. RAG-ассистент отвечает локальной моделью, логи и метрики не покидают ваш контур.</p>
+        </article>
+        <article class="pillar">
+          <h3>Развёртывание в Docker Compose</h3>
+          <p>Стеки описаны compose-файлами, конфигурация — через <code>.env</code>. Обновление и перенос выполняются предсказуемо, без ручной сборки сервисов.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta" id="contacts">
+    <div class="wrap cta-inner">
+      <div>
+        <h2>Обсудим внедрение</h2>
+        <p>Расскажем, как системы встанут в ваш контур: развёртывание в Docker Compose, интеграции и подключение к мониторингу. Демо-доступы предоставляем по запросу.</p>
+        <div class="contact-list">
+          <a class="contact-link" href="mailto:staff-rf@ya.ru">
+            <span class="ico" aria-hidden="true">✉</span>staff-rf@ya.ru
+          </a>
+          <a class="contact-link" href="tel:+79237061009">
+            <span class="ico" aria-hidden="true">☎</span>8 923 706-10-09
+          </a>
+
+        </div>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn-primary" href="mailto:staff-rf@ya.ru?subject=%D0%92%D0%BD%D0%B5%D0%B4%D1%80%D0%B5%D0%BD%D0%B8%D0%B5%20Staff%20RF">Написать</a>
+        <a class="btn btn-outline" href="tel:+79237061009">Позвонить</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark" aria-hidden="true">SR</span>
+      <div>
+        <p class="footer-name">Staff <span class="brand-accent">RF</span></p>
+        <p class="footer-note">Корпоративные системы учёта, знаний и мониторинга.</p>
+      </div>
+    </div>
+    <nav class="footer-nav" aria-label="Ссылки в подвале">
+      <a href="#tabel">Табель</a>
+      <a href="#llm">RAG-ассистент</a>
+      <a href="#mkt">MKT Monitoring</a>
+      <a href="#top">Наверх</a>
+    </nav>
+    <div class="footer-contacts">
+      <a href="mailto:staff-rf@ya.ru">staff-rf@ya.ru</a>
+      <a href="tel:+79237061009">8 923 706-10-09</a>
+    </div>
+    <p class="footer-copy">© 2026 Staff RF. Скриншоты — из репозиториев проектов.</p>
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр скриншота" hidden>
+  <button class="lightbox-close" type="button" aria-label="Закрыть">×</button>
+  <figure>
+    <img id="lightbox-img" src="" alt="">
+    <figcaption id="lightbox-caption"></figcaption>
+  </figure>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

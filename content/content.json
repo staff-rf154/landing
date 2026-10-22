@@ -1,0 +1,548 @@
+{
+  "settings": {
+    "site_title": "Staff RF — Табель, RAG-ассистент и MKT Monitoring",
+    "site_description": "Staff RF: QR-учёт рабочего времени «Табель», локальный RAG-ассистент по документации и MKT Monitoring — мониторинг MikroTik, серверов и контейнеров в Grafana. On-premise, Docker Compose, Prometheus.",
+    "canonical": "https://staff-rf.ru/",
+    "brand": "Staff RF",
+    "brand_mark": "SR",
+    "accent": "#2563eb",
+    "accent2": "#06b6d4",
+    "bg": "#0b1020",
+    "og_image": "/assets/og-cover.png",
+    "nav": [
+      {
+        "label": "Табель",
+        "href": "#tabel"
+      },
+      {
+        "label": "RAG-ассистент",
+        "href": "#llm"
+      },
+      {
+        "label": "MKT Monitoring",
+        "href": "#mkt"
+      },
+      {
+        "label": "Мониторинг",
+        "href": "#monitoring"
+      },
+      {
+        "label": "Контакты",
+        "href": "#contacts"
+      }
+    ],
+    "footer_name": "Staff RF",
+    "footer_note": "Корпоративные системы учёта, знаний и мониторинга.",
+    "footer_links": [
+      {
+        "label": "Табель",
+        "href": "#tabel"
+      },
+      {
+        "label": "RAG-ассистент",
+        "href": "#llm"
+      },
+      {
+        "label": "MKT Monitoring",
+        "href": "#mkt"
+      }
+    ],
+    "footer_contacts": [
+      {
+        "label": "staff-rf@ya.ru",
+        "href": "mailto:staff-rf@ya.ru"
+      },
+      {
+        "label": "8 923 706-10-09",
+        "href": "tel:+79237061009"
+      }
+    ],
+    "footer_copyright": "© 2026 Staff RF. Скриншоты — из репозиториев проектов.",
+    "custom_css": ""
+  },
+  "blocks": [
+    {
+      "id": "hero",
+      "type": "hero",
+      "enabled": true,
+      "bg_color": "",
+      "bg_image": "",
+      "eyebrow": "Staff RF · корпоративные системы · on-premise",
+      "title": "Учёт, знания и сеть —",
+      "accent": "под вашим контролем",
+      "lead": "«Табель» — QR-учёт рабочего времени с отчётами Т-13 и мобильным приложением. «RAG-ассистент» — локальная база знаний, которая отвечает по вашим документам со ссылками на источники. «MKT Monitoring» — наблюдаемость MikroTik, серверов и контейнеров в Grafana. Всё разворачивается on-premise, работает без внешних сервисов и сводится в один мониторинг.",
+      "buttons": [
+        {
+          "label": "Табель",
+          "href": "#tabel",
+          "style": "primary"
+        },
+        {
+          "label": "RAG-ассистент",
+          "href": "#llm",
+          "style": "outline"
+        },
+        {
+          "label": "MKT Monitoring",
+          "href": "#mkt",
+          "style": "outline"
+        }
+      ],
+      "facts": [
+        {
+          "value": "3",
+          "label": "готовых продукта"
+        },
+        {
+          "value": "QR + геозоны",
+          "label": "контроль отметок"
+        },
+        {
+          "value": "CPU-only",
+          "label": "локальная LLM"
+        },
+        {
+          "value": "Prometheus + Grafana",
+          "label": "наблюдаемость"
+        }
+      ]
+    },
+    {
+      "id": "tabel-block",
+      "type": "product",
+      "enabled": true,
+      "anchor": "tabel",
+      "alt": false,
+      "bg_color": "",
+      "bg_image": "",
+      "eyebrow": "Продукт 01 · Учёт рабочего времени",
+      "title": "Табель — QR-учёт рабочего времени",
+      "lead": "Система табелирования сотрудников: REST API, веб-панель администратора, интерфейс оператора, приложение отчётов для руководителей и мобильное приложение. Отметки прихода и ухода — по подписанным QR-кодам, с проверкой геозоны офиса и автоматическим расчётом переработок.",
+      "chips": [
+        "Go 1.24",
+        "PostgreSQL 16",
+        "PgBouncer",
+        "Redis 7",
+        "React 18 + TypeScript",
+        "Flutter",
+        "Docker Compose"
+      ],
+      "actions": [
+        {
+          "label": "Обсудить внедрение",
+          "href": "#contacts",
+          "style": "primary"
+        }
+      ],
+      "hint": "Демо-доступ — по запросу.",
+      "features": [
+        {
+          "icon": "QR",
+          "title": "Отметки по QR",
+          "text": "Токены подписываются ECDSA P-256 на сервере. Личные, статические и бумажные пропуска: печать PDF 85,6 × 53,98 мм, до 8 карточек на A4."
+        },
+        {
+          "icon": "⏱",
+          "title": "Графики и смены",
+          "text": "5/2, 2/2 и произвольные графики, импорт из CSV, авто-закрытие предыдущей смены, переработки и ночные смены через полночь."
+        },
+        {
+          "icon": "◈",
+          "title": "Геозоны офисов",
+          "text": "Отметка вне офиса помечается флагом <code>outside_office</code>. Радиус зоны и офисы настраиваются, координаты видны на офлайн-карте."
+        },
+        {
+          "icon": "▤",
+          "title": "Отчёты и Т-13",
+          "text": "Сводный график, первый приход и последний выход, входы-выходы, приход-уход по дням, табель Т-13, смены, отметки и сводка. Выгрузка в CSV/Excel."
+        },
+        {
+          "icon": "◇",
+          "title": "Роли и делегирование",
+          "text": "Сотрудник, оператор, руководитель смены, директор, кадры и администратор. Передача прав оператора с подтверждением и автоматическим возвратом."
+        },
+        {
+          "icon": "⇄",
+          "title": "Интеграции",
+          "text": "OAuth 2.0 client_credentials, IP-whitelist, выгрузка отметок с keyset-пагинацией, офлайн-импорт, справочники и графики для 1С:УПП/ЗУП."
+        }
+      ],
+      "gallery": {
+        "title": "Интерфейсы системы",
+        "note": "Скриншоты из репозитория проекта. Нажмите на изображение, чтобы открыть его целиком.",
+        "columns": "3",
+        "images": [
+          {
+            "src": "/assets/screens/tabel-reports.png",
+            "alt": "Сводный график отработанного времени",
+            "label": "Сводный график",
+            "caption": "Сводный график отработанного времени за период"
+          },
+          {
+            "src": "/assets/screens/tabel-entries.png",
+            "alt": "Входы и выходы с группировкой по сотруднику",
+            "label": "Входы и выходы",
+            "caption": "Входы и выходы с группировкой по сотруднику"
+          },
+          {
+            "src": "/assets/screens/tabel-users.png",
+            "alt": "Панель администратора: пользователи и роли",
+            "label": "Пользователи и роли",
+            "caption": "Пользователи, роли и регистрация"
+          },
+          {
+            "src": "/assets/screens/tabel-delegations.png",
+            "alt": "Делегирование прав оператора",
+            "label": "Делегирования",
+            "caption": "Делегирование прав оператора"
+          },
+          {
+            "src": "/assets/screens/tabel-audit.png",
+            "alt": "Журнал аудита",
+            "label": "Аудит",
+            "caption": "Журнал аудита с фильтрами"
+          },
+          {
+            "src": "/assets/screens/tabel-settings.png",
+            "alt": "Настройки системы",
+            "label": "Настройки",
+            "caption": "Настройки организации, контактов и пропусков"
+          }
+        ]
+      },
+      "deploy": [
+        {
+          "k": "Backend",
+          "v": "REST API · Go · роль admin/operator/employee"
+        },
+        {
+          "k": "Хранилище",
+          "v": "PostgreSQL 16 + PgBouncer · Redis 7 · Garage S3"
+        },
+        {
+          "k": "Клиенты",
+          "v": "web-admin · web-operator · reports-web · Flutter Android/iOS"
+        }
+      ]
+    },
+    {
+      "id": "llm-block",
+      "type": "product",
+      "enabled": true,
+      "anchor": "llm",
+      "alt": true,
+      "bg_color": "",
+      "bg_image": "",
+      "eyebrow": "Продукт 02 · Корпоративная база знаний",
+      "title": "RAG-ассистент по внутренней документации",
+      "lead": "Локальная RAG-платформа для ответов на вопросы по корпоративной документации: FastAPI + Qdrant + Ollama + SQLite. Разворачивается в Docker Compose, работает на CPU без GPU и не отправляет данные во внешние сервисы. Каждый ответ сопровождается цитатами и ссылками на документы и страницы.",
+      "chips": [
+        "FastAPI",
+        "Qdrant",
+        "Ollama",
+        "SQLite",
+        "multilingual-e5-base",
+        "Docker Compose",
+        "Prometheus"
+      ],
+      "actions": [
+        {
+          "label": "Обсудить внедрение",
+          "href": "#contacts",
+          "style": "primary"
+        }
+      ],
+      "hint": "Локальная LLM <code>qwen2.5:3b-instruct</code>. Есть варианты запуска на NVIDIA и Vulkan.",
+      "features": [
+        {
+          "icon": "⌕",
+          "title": "Гибридный поиск",
+          "text": "Dense-эмбеддинги multilingual-e5-base плюс BM25, переранжирование, словарь синонимов и родительские фрагменты для полного контекста в ответе."
+        },
+        {
+          "icon": "▦",
+          "title": "Многоформатная индексация",
+          "text": "PDF с разбивкой по страницам, DOCX/PPTX, ODT/ODS/ODP, XLSX, Office 2003, EPUB, HTML, CSV/TSV, JSON/XML/YAML и индексация сайтов."
+        },
+        {
+          "icon": "❝",
+          "title": "Ответы с источниками",
+          "text": "Блок «Документация, из которой взят ответ» формируется кодом: названия документов, номера страниц и ссылки. Флаг <code>grounded</code> показывает отказ."
+        },
+        {
+          "icon": "↻",
+          "title": "Обучение на практике",
+          "text": "Оценки 👍/👎, исправления ответов со сверкой по документации, уроки администратора, автообучение и память похожих вопросов."
+        },
+        {
+          "icon": "⚙",
+          "title": "Кабинет администратора",
+          "text": "Пользователи и роли, тенанты, статистика запросов, сферы деятельности, синонимы, стартовые промты, документация из кабинета и индексация без простоя."
+        },
+        {
+          "icon": "✓",
+          "title": "Проверка качества",
+          "text": "Генерация проверочных вопросов, первичное обучение по сфере, замеры латентности и супер-тест для контроля регрессий после изменений."
+        }
+      ],
+      "gallery": {
+        "title": "Интерфейсы системы",
+        "note": "Чат, кабинет администратора, настройки пайплайна и автообучение.",
+        "columns": "4",
+        "images": [
+          {
+            "src": "/assets/screens/llm-chat.png",
+            "alt": "Чат RAG-ассистента",
+            "label": "Чат",
+            "caption": "Чат: ответы по документации с цитатами и источниками"
+          },
+          {
+            "src": "/assets/screens/llm-overview.png",
+            "alt": "Обзор в кабинете администратора",
+            "label": "Обзор и статистика",
+            "caption": "Обзор: запросы, оценки и статистика по дням"
+          },
+          {
+            "src": "/assets/screens/llm-settings.png",
+            "alt": "Настройки модели и пайплайна",
+            "label": "Настройки пайплайна",
+            "caption": "Настройки модели, поиска и чанкинга"
+          },
+          {
+            "src": "/assets/screens/llm-autolearn.png",
+            "alt": "Автообучение ассистента",
+            "label": "Автообучение",
+            "caption": "Автообучение и проверка на сгенерированных вопросах"
+          }
+        ]
+      },
+      "deploy": [
+        {
+          "k": "Контур",
+          "v": "полностью локально: Qdrant · Ollama · SQLite · FastAPI"
+        },
+        {
+          "k": "Требования",
+          "v": "~5 ГБ RAM для 3B-модели, от 8 CPU-ядер, ~1 ГБ под эмбеддинги"
+        },
+        {
+          "k": "Эксплуатация",
+          "v": "health/readiness · Prometheus · бэкапы · пауза и возобновление индексации"
+        }
+      ]
+    },
+    {
+      "id": "mkt-block",
+      "type": "product",
+      "enabled": true,
+      "anchor": "mkt",
+      "alt": false,
+      "bg_color": "",
+      "bg_image": "",
+      "eyebrow": "Продукт 03 · Мониторинг инфраструктуры",
+      "title": "MKT Monitoring — наблюдаемость MikroTik и серверов",
+      "lead": "Стек мониторинга устройств MikroTik на Docker: сбор метрик через RouterOS API, визуализация в Grafana, алертинг в Telegram и централизованный сбор логов в Loki. Одиннадцать сервисов в общей сети собирают данные о роутерах, каналах связи, VPN, контейнерах и самом сервере.",
+      "chips": [
+        "Prometheus",
+        "Grafana",
+        "Loki",
+        "Alertmanager",
+        "MKTXP",
+        "cAdvisor",
+        "node_exporter",
+        "Docker Compose"
+      ],
+      "actions": [
+        {
+          "label": "Обсудить внедрение",
+          "href": "#contacts",
+          "style": "primary"
+        }
+      ],
+      "hint": "RouterOS 7.x · API :8728 · syslog 514/601",
+      "features": [
+        {
+          "icon": "◉",
+          "title": "Метрики MikroTik без SNMP",
+          "text": "Сбор через RouterOS API (MKTXP): 96 панелей и 73 метрики — CPU, память, температура, интерфейсы, очереди, WLAN/CAPsMAN, DHCP, BGP, firewall, netwatch."
+        },
+        {
+          "icon": "▤",
+          "title": "Логи роутеров",
+          "text": "syslog-ng принимает журналы по UDP 514 и TCP 601, Promtail передаёт их в Loki, а в Grafana доступен поиск по темам и строкам."
+        },
+        {
+          "icon": "!",
+          "title": "Алерты в Telegram",
+          "text": "Восемь правил Prometheus через Alertmanager: высокая нагрузка CPU и памяти, перегрев платы и CPU, недавняя перезагрузка, недоступность экспортёра, ping и задержки."
+        },
+        {
+          "icon": "▣",
+          "title": "Хост и контейнеры",
+          "text": "node_exporter и cAdvisor: 44 панели Docker Monitoring — CPU, память, сеть, диск, файловые системы и PSI-метрики давления по хосту и каждому контейнеру."
+        },
+        {
+          "icon": "⌂",
+          "title": "VPN под наблюдением",
+          "text": "Amnezia WG Easy с экспортом метрик: настроенные и подключённые пиры, трафик по клиентам, handshake, throughput и статистика соединений."
+        },
+        {
+          "icon": "⚙",
+          "title": "Один стек",
+          "text": "Все сервисы в сети monitoring, дашборды и datasources провижинятся автоматически, данные Grafana и Prometheus лежат в понятных каталогах."
+        }
+      ],
+      "gallery": {
+        "title": "Дашборды",
+        "note": "Grafana, основной дашборд MikroTik, логи роутеров и состояние Prometheus.",
+        "columns": "4",
+        "images": [
+          {
+            "src": "/assets/screens/mkt-grafana.png",
+            "alt": "Grafana: обзорный дашборд",
+            "label": "Grafana",
+            "caption": "Grafana: обзорный дашборд со всеми сервисами"
+          },
+          {
+            "src": "/assets/screens/mkt-dashboard.png",
+            "alt": "Дашборд MikroTik в Grafana",
+            "label": "MikroTik",
+            "caption": "Mikrotik MKTXP Monitoring: 96 панелей"
+          },
+          {
+            "src": "/assets/screens/mkt-logs.png",
+            "alt": "Логи MikroTik в Loki",
+            "label": "Логи",
+            "caption": "Mikrotik Loki Logs: журналы роутеров с поиском"
+          },
+          {
+            "src": "/assets/screens/mkt-prometheus.png",
+            "alt": "Prometheus: состояние сбора метрик",
+            "label": "Prometheus",
+            "caption": "Prometheus: targets и состояние сбора метрик"
+          }
+        ]
+      },
+      "deploy": [
+        {
+          "k": "Сервисы",
+          "v": "11 контейнеров: MKTXP, Prometheus, Grafana, Loki, Promtail, syslog-ng, Alertmanager, Blackbox, node_exporter, cAdvisor, Amnezia WG"
+        },
+        {
+          "k": "Сбор данных",
+          "v": "RouterOS API :8728 · syslog UDP 514 / TCP 601 · ICMP-проверки"
+        },
+        {
+          "k": "Алерты",
+          "v": "8 правил Prometheus → Alertmanager → Telegram · часовой пояс Asia/Novosibirsk"
+        }
+      ]
+    },
+    {
+      "id": "monitoring-block",
+      "type": "monitoring",
+      "enabled": true,
+      "anchor": "monitoring",
+      "alt": true,
+      "bg_color": "",
+      "bg_image": "",
+      "eyebrow": "Наблюдаемость",
+      "title": "Всё сводится в один мониторинг",
+      "lead": "MKT Monitoring закрывает сеть, серверы и контейнеры, а «Табель» и RAG-ассистент отдают health-эндпоинты и метрики. Prometheus и Grafana из MKT Monitoring собирают общую картину, алерты уходят в Telegram — без зоопарка агентов и внешних сервисов.",
+      "cards": [
+        {
+          "title": "Табель",
+          "endpoints": [
+            {
+              "code": "GET /api/health",
+              "text": "доступность API и базовая проверка сервиса"
+            },
+            {
+              "code": "GET /api/ready",
+              "text": "готовность backend к работе"
+            },
+            {
+              "code": "healthcheck",
+              "text": "backend, PostgreSQL, Redis и edge-nginx в Docker Compose"
+            },
+            {
+              "code": "журнал аудита",
+              "text": "входы, изменения настроек и действия пользователей"
+            }
+          ],
+          "note": "Дополнительно: уведомления в системе (автозакрытие смен, истечение QR, ошибки офлайн-импорта) и IP-whitelist для интеграций."
+        },
+        {
+          "title": "RAG-ассистент",
+          "endpoints": [
+            {
+              "code": "GET /health",
+              "text": "liveness: статус, коллекция, модели, устройство"
+            },
+            {
+              "code": "GET /health?deep=1",
+              "text": "readiness: Qdrant, алиас docs, Ollama и модель, запись в SQLite"
+            },
+            {
+              "code": "GET /metrics",
+              "text": "Prometheus: HTTP-метрики, <code>llm_retrieval_latency_seconds</code>, <code>llm_reindex_duration_seconds</code>, <code>llm_tokens_total</code>"
+            },
+            {
+              "code": "GET /reindex",
+              "text": "прогресс переиндексации, пауза и продолжение"
+            }
+          ],
+          "note": "Метрики показывают качество работы ассистента: латентность поиска, объём токенов и длительность фоновой переиндексации."
+        }
+      ],
+      "pillars": [
+        {
+          "title": "MKT Monitoring как фундамент",
+          "text": "Prometheus, Grafana, Loki и Alertmanager уже развёрнуты. «Табель» и RAG-ассистент добавляются как targets, а дашборды и алерты живут рядом, в одном стеке."
+        },
+        {
+          "title": "Данные остаются внутри",
+          "text": "Все продукты разворачиваются on-premise. RAG-ассистент отвечает локальной моделью, логи и метрики не покидают ваш контур."
+        },
+        {
+          "title": "Развёртывание в Docker Compose",
+          "text": "Стеки описаны compose-файлами, конфигурация — через <code>.env</code>. Обновление и перенос выполняются предсказуемо, без ручной сборки сервисов."
+        }
+      ]
+    },
+    {
+      "id": "contacts-block",
+      "type": "cta",
+      "enabled": true,
+      "anchor": "contacts",
+      "bg_color": "",
+      "bg_image": "",
+      "title": "Обсудим внедрение",
+      "text": "Расскажем, как системы встанут в ваш контур: развёртывание в Docker Compose, интеграции и подключение к мониторингу. Демо-доступы предоставляем по запросу.",
+      "contacts": [
+        {
+          "icon": "✉",
+          "label": "staff-rf@ya.ru",
+          "href": "mailto:staff-rf@ya.ru"
+        },
+        {
+          "icon": "☎",
+          "label": "8 923 706-10-09",
+          "href": "tel:+79237061009"
+        }
+      ],
+      "buttons": [
+        {
+          "label": "Написать",
+          "href": "mailto:staff-rf@ya.ru?subject=%D0%92%D0%BD%D0%B5%D0%B4%D1%80%D0%B5%D0%BD%D0%B8%D0%B5%20Staff%20RF",
+          "style": "primary"
+        },
+        {
+          "label": "Позвонить",
+          "href": "tel:+79237061009",
+          "style": "outline"
+        }
+      ]
+    }
+  ]
+}

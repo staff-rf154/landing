@@ -1,0 +1,4 @@
+{% from "_macros.html" import bg_style, anchor %}
+<section class="section" id="{{ anchor(b) }}" {{ bg_style(b, 'linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92))')|safe }}>
+  <div class="wrap">{{ b.html|safe }}</div>
+</section>

@@ -1,0 +1,17 @@
+{% from "_macros.html" import bg_style, anchor %}
+<section class="section{{ ' section-alt' if b.alt }}" id="{{ anchor(b) }}" {{ bg_style(b, 'linear-gradient(rgba(255,255,255,.92),rgba(255,255,255,.92))')|safe }}>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>{{ b.title }}</h2>
+      {% if b.note %}<p class="section-lead">{{ b.note }}</p>{% endif %}
+    </div>
+    <div class="gallery gallery-{{ b.columns or '3' }}" data-gallery style="margin-top:36px">
+      {% for img in b.images %}
+      <button class="shot" type="button" data-full="{{ img.src }}" data-caption="{{ img.caption }}">
+        <img src="{{ img.src }}" alt="{{ img.alt }}" loading="lazy">
+        <span>{{ img.label }}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+</section>

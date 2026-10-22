@@ -1,0 +1,7 @@
+{% macro bg_style(b, overlay) -%}
+{%- if b.bg_image or b.bg_color -%}
+style="{% if b.bg_image %}background-image:linear-gradient({{ overlay }}),url('{{ b.bg_image }}');background-size:cover;background-position:center;background-repeat:no-repeat;{% endif %}{% if b.bg_color %}background-color:{{ b.bg_color }};{% endif %}"
+{%- endif -%}
+{%- endmacro %}
+
+{% macro anchor(b) -%}{{ b.anchor or b.id }}{%- endmacro %}

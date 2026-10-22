@@ -277,7 +277,7 @@ resolver 127.0.0.11 valid=10s ipv6=off;
 
 server {
     listen 443 ssl;
-    server_name staff-rf.ru srv.staff-rf.ru;
+    server_name staff-rf.ru;
 
     ssl_certificate     /etc/nginx/ssl/apex/fullchain.pem;
     ssl_certificate_key /etc/nginx/ssl/apex/privkey.pem;

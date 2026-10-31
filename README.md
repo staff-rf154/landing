@@ -5,8 +5,38 @@
 в JSON, шаблоны рендерятся на сервере, статические файлы (стили, скрипты, картинки)
 отдаются тем же приложением.
 
-Админка не привязана к конкретному домену: проверка Origin выполняется по `Host`
-текущего запроса, а canonical, sitemap и robots подставляют адрес из настроек.
+Сайт и админка работают в одном контейнере `landing` (FastAPI + Uvicorn). Отдельный
+nginx-контейнер для статической версии больше не нужен: статика входит в образ, а
+контент, загрузки и бэкапы лежат в смонтированном каталоге `content/`.
+
+Админка не привязана к конкретному домену или IP: проверка Origin выполняется по
+`Host` текущего запроса, а canonical, sitemap и robots подставляют адрес из настроек.
+
+## Продукты на лендинге
+
+Лендинг представляет четыре платформы и общий мониторинг. Содержимое блоков
+редактируется в CMS (`content/content.json`), якоря используются в меню.
+
+| Продукт | Якорь | Блок | Позиционирование |
+|---------|-------|------|------------------|
+| LLM V3 | `#llm-v3` | `llm-v3-block` | Enterprise RAG: LLM-судья, автообучение, мультитенантность |
+| llm-doc | `#llm` | `llm-block` | Лёгкий RAG на CPU без GPU |
+| Табель | `#tabel` | `tabel-block` | QR-учёт времени, отчёты Т-13, 1С |
+| Табель Гибрид | `#tabel-hybrid` | `tabel-hybrid-block` | Самоотметки, офлайн-очередь, интеграция с 1С |
+| MKT Monitoring | `#mkt` | `mkt-block` | Наблюдаемость MikroTik, серверов и контейнеров |
+
+Дополнительные блоки: `compare-block` (`#compare`) — сравнение платформ,
+`monitoring-block` (`#monitoring`) — health-эндпоинты и метрики,
+`roadmap-block` (`#roadmap`) — рекомендуемая последовательность внедрения.
+
+### Скриншоты
+
+Реальные скриншоты лежат в `assets/screens/` и подключены в галереях
+`llm-block`, `tabel-block` и `mkt-block`. Для LLM V3 и «Табель Гибрид» подготовлены
+SVG-заглушки (`llm-v3-*.svg`, `tabel-hybrid-*.svg`): их достаточно заменить
+файлами с теми же именами или загрузить новые изображения через админку и
+обновить пути в CMS. Заглушки не являются скриншотами интерфейса и помечены
+подписью «Скриншот будет добавлен».
 
 ## Возможности
 
@@ -20,6 +50,7 @@
 - Загрузка изображений (PNG, JPEG, GIF, WebP) прямо из админки.
 - Автоматические бэкапы контента при каждом сохранении (хранятся последние 20).
 - Адаптивная вёрстка сайта и адаптивная админка (включая мобильные экраны).
+- Готовые блоки сравнения платформ, дорожной карты внедрения и health-эндпоинтов.
 - SEO: canonical, Open Graph, Twitter Card, JSON-LD, sitemap.xml, robots.txt, IndexNow.
 
 ## Архитектура
@@ -28,10 +59,10 @@
 Интернет
    │
    ▼
-Edge nginx (TLS, домены, ACME)
-   │  proxy_pass http://landing-cms:8000
+Edge nginx (TLS, домены, ACME)   (необязателен)
+   │  proxy_pass http://landing:8000
    ▼
-landing-cms (FastAPI + Jinja2, Uvicorn)
+landing (FastAPI + Jinja2, Uvicorn) — один контейнер
    ├── /                 → отрендеренный сайт из content/content.json
    ├── /admin, /preview  → админка и предпросмотр
    ├── /admin/api/*      → JSON API (сессионная авторизация)
@@ -39,8 +70,10 @@ landing-cms (FastAPI + Jinja2, Uvicorn)
    └── /uploads/*        → загруженные через админку изображения
 ```
 
-В `docker-compose.yml` также остаётся сервис `landing` (nginx со статическим
-`index.html`) как резервный вариант. Боевой трафик идёт в `cms`.
+Контейнер публикует порт `8080` на всех интерфейсах хоста (меняется переменной
+`LANDING_PORT`). Внутри сети Docker у него есть алиасы `landing-cms` и
+`landing-web-1`, поэтому старые конфиги edge-nginx продолжают работать.
+Прямой доступ по HTTP и доступ через HTTPS-прокси поддерживаются одновременно.
 
 ## Состав репозитория
 
@@ -48,14 +81,14 @@ landing-cms (FastAPI + Jinja2, Uvicorn)
 .
 ├── app.js                      # JS сайта: меню, лайтбокс, анимации
 ├── styles.css                  # стили сайта
-├── index.html                  # прежняя статическая версия (fallback-контейнер)
-├── nginx.conf                  # конфиг fallback-контейнера landing
+├── index.html                  # архив прежней статической версии (не используется)
+├── nginx.conf                  # архив конфига прежнего nginx-контейнера (не используется)
 ├── robots.txt / sitemap.xml    # шаблоны, хост подставляется из canonical
 ├── e93abb...txt                # ключ IndexNow (публичный)
-├── assets/                     # favicon, OG, скриншоты продуктов
+├── assets/                     # favicon, OG, скриншоты продуктов и SVG-заглушки
 ├── cms/
 │   ├── app.py                  # всё приложение: рендер, API, авторизация
-│   ├── Dockerfile
+│   ├── Dockerfile              # собирает единый образ landing
 │   ├── requirements.txt
 │   ├── templates/
 │   │   ├── site.html           # каркас сайта
@@ -71,7 +104,8 @@ landing-cms (FastAPI + Jinja2, Uvicorn)
 │   ├── uploads/                # загрузки из админки (не в git)
 │   └── backups/                # автобэкапы контента (не в git)
 ├── cms.env                     # секреты (не в git, см. .gitignore)
-└── docker-compose.yml
+├── .dockerignore               # исключения при сборке единого образа
+└── docker-compose.yml          # один сервис landing
 ```
 
 ## Быстрый старт
@@ -103,13 +137,14 @@ docker network create tabel_tabel 2>/dev/null || true
 ```bash
 docker compose up -d --build
 docker compose ps
-curl -fsS http://127.0.0.1:8000/health   # если порт опубликован
+curl -fsS http://127.0.0.1:8080/health
 ```
 
-4. Откройте `/admin/login` и войдите с логином `admin` и паролем из `cms.env`.
+4. Откройте `http://<адрес-сервера>:8080/` (или домен через edge-nginx) и войдите
+   в `/admin/login` с логином `admin` и паролем из `cms.env`.
 
-Порт 8000 наружу в compose не публикуется: предполагается обратный прокси,
-который ходит в контейнер `landing-cms` по внутренней сети Docker.
+Порт хоста задаётся переменной `LANDING_PORT` (по умолчанию `8080`) и не привязан
+к конкретному IP. Внутри контейнера приложение всегда слушает `8000`.
 
 ## Переменные окружения
 
@@ -118,9 +153,11 @@ curl -fsS http://127.0.0.1:8000/health   # если порт опубликов�
 | `ADMIN_PASSWORD` | да          | —            | Пароль администратора (логин всегда `admin`)                      |
 | `SECRET_KEY`     | да          | —            | Ключ подписи сессионной cookie `sr_cms`                            |
 | `DATA_DIR`       | нет         | `/data`      | Каталог с `content.json`, `uploads/`, `backups/`                  |
-| `SITE_DIR`       | нет         | `/srv/site`  | Каталог со статикой сайта (`styles.css`, `assets`, sitemap и т.д.) |
+| `SITE_DIR`       | нет         | `/app`       | Каталог со статикой сайта (`styles.css`, `assets`, sitemap и т.д.) |
+| `LANDING_PORT`   | нет         | `8080`       | Внешний порт хоста для compose (не переменная приложения)          |
 
 Без `ADMIN_PASSWORD` и `SECRET_KEY` приложение не стартует (падает с ошибкой).
+`LANDING_PORT` можно задать в `.env` рядом с `docker-compose.yml` или в окружении.
 
 ## Модель контента
 
@@ -186,8 +223,9 @@ curl -fsS http://127.0.0.1:8000/health   # если порт опубликов�
 ## Админка
 
 - Вход: `/admin/login`, логин `admin`, пароль из `cms.env`.
-- Сессия: подписанная cookie `sr_cms`, срок 7 дней, `HttpOnly`, `SameSite=Lax`,
-  только по HTTPS.
+- Сессия: подписанная cookie `sr_cms`, срок 7 дней, `HttpOnly`, `SameSite=Lax`.
+  При HTTPS cookie автоматически получает флаг `Secure`, при прямом HTTP остаётся
+  рабочей — поэтому вход работает и через edge-nginx, и по прямому порту.
 - Вкладка «Блоки»: список слева, редактор справа. Блоки можно перетаскивать,
   двигать ↑ / ↓, отключать и удалять. Внизу — выбор типа и кнопка «Добавить блок».
 - Блок «Первый экран», «Продукт» и др. имеют собственные наборы полей; формы
@@ -210,6 +248,7 @@ curl -fsS http://127.0.0.1:8000/health   # если порт опубликов�
 | Метод | Путь                 | Назначение                                   |
 |-------|----------------------|----------------------------------------------|
 | GET   | `/`                  | Сайт                                         |
+| GET   | `/index.html`        | 301-редирект на `/` (совместимость)          |
 | GET   | `/preview`           | Сайт для iframe-предпросмотра (`no-store`)   |
 | GET   | `/health`            | Проверка чтения контента                     |
 | GET   | `/admin/login`       | Форма входа                                  |
@@ -241,7 +280,7 @@ curl -fsS http://127.0.0.1:8000/health   # если порт опубликов�
 cd /opt/compose/landing
 ls -t content/backups | head            # найти нужный бэкап
 cp content/backups/content-XXXX.json content/content.json
-curl -fsS http://127.0.0.1:8000/health  # контейнер подхватит файл по mtime
+curl -fsS http://127.0.0.1:8080/health  # контейнер подхватит файл по mtime
 ```
 
 ## Безопасность
@@ -250,8 +289,11 @@ curl -fsS http://127.0.0.1:8000/health  # контейнер подхватит 
 - Сравнение логина и пароля — `secrets.compare_digest`.
 - Rate limit на вход: 10 неудачных попыток за 5 минут с одного IP.
 - Проверка Origin для POST/PUT/PATCH/DELETE.
-- Cookie сессии: `HttpOnly`, `SameSite=Lax`, `Secure` (сайт работает по HTTPS).
+- Cookie сессии: `HttpOnly`, `SameSite=Lax`, `Secure` при HTTPS. За edge-nginx
+  HTTPS определяется по `X-Forwarded-Proto`, при прямом HTTP cookie остаётся рабочей.
 - Заголовки: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN`.
+- Статика и SEO-файлы кэшируются, HTML сайта — `no-cache`, админка — `no-store`.
+- Ответы сжимаются gzip (HTML, CSS, JS, JSON, SVG) при размере от 1 КБ.
 - Загрузка только растровых изображений по magic bytes; SVG не принимается.
 - HTML-поля блоков (`html`, `body`, `hint`, `text`) не экранируются — не давайте
   доступ к админке недоверенным людям.
@@ -268,7 +310,9 @@ curl -fsS http://127.0.0.1:8000/health  # контейнер подхватит 
 
 ## Публикация на сервере
 
-Боевая схема: edge nginx завершает TLS и проксирует запросы в `landing-cms:8000`.
+Контейнер `landing` самодостаточен: отдаёт сайт, админку, статику и API. Его можно
+открыть напрямую по `http://<сервер>:8080` или поставить за edge nginx с TLS.
+Для совместимости у контейнера есть DNS-алиасы `landing-cms` и `landing-web-1`.
 Так как контейнер может быть пересоздан, адрес резолвится через DNS Docker при
 каждом запросе:
 
@@ -282,7 +326,7 @@ server {
     ssl_certificate     /etc/nginx/ssl/apex/fullchain.pem;
     ssl_certificate_key /etc/nginx/ssl/apex/privkey.pem;
 
-    set $landing_upstream http://landing-cms:8000;
+    set $landing_upstream http://landing:8000;
     location / {
         proxy_pass $landing_upstream$request_uri;
         proxy_set_header Host $host;
@@ -291,6 +335,11 @@ server {
     }
 }
 ```
+
+Если edge-nginx не используется, сайт доступен по `http://<сервер>:8080/`.
+Порт меняется через `LANDING_PORT`, привязки к IP в compose нет. Чтобы открыть
+порт только на локальном интерфейсе, задайте `LANDING_PORT=127.0.0.1:8080` —
+Docker воспримет это как проброс `127.0.0.1:8080:8000`.
 
 Особенности текущей инсталляции:
 
@@ -316,9 +365,8 @@ export DATA_DIR=$PWD/content SITE_DIR=$PWD
 uvicorn cms.app:app --reload --port 8000
 ```
 
-Откройте `http://127.0.0.1:8000/`. Cookie сессии помечена `Secure`, поэтому вход
-по HTTP может не сохраняться — для локальной отладки удобнее HTTPS-прокси или
-временное изменение `https_only` в `cms/app.py`.
+Откройте `http://127.0.0.1:8000/` — вход в админку работает и по HTTP: флаг
+`Secure` добавляется к cookie автоматически только при HTTPS.
 
 ## Как добавить новый тип блока
 
@@ -326,15 +374,16 @@ uvicorn cms.app:app --reload --port 8000
    (`cms/app.py`).
 2. Создайте партиал `cms/templates/blocks/<type>.html` (доступны `b` — блок,
    `s` — настройки, `request`).
-3. Перезапустите контейнер `cms` (шаблоны и статика примонтированы, но новый тип
-   требует перезагрузки Python-процесса).
+3. Пересоберите и перезапустите единый контейнер:
+   `docker compose up -d --build` (шаблоны и Python-код входят в образ).
 4. В админке новый тип появится в выпадающем списке «Добавить блок».
 
 ## Диагностика
 
 ```bash
 docker compose ps
-docker compose logs -f cms
+docker compose logs -f landing
+curl -fsS http://127.0.0.1:8080/health
 curl -fsS https://staff-rf.ru/health
 curl -fsS https://staff-rf.ru/admin/login -o /dev/null -w '%{http_code}\n'
 ```
@@ -342,7 +391,8 @@ curl -fsS https://staff-rf.ru/admin/login -o /dev/null -w '%{http_code}\n'
 - `500` на сайте — проверьте валидность `content/content.json` (`python3 -m json.tool`).
 - `403` при сохранении — Origin не совпал с Host (например, доступ через другой
   домен или прокси без `proxy_set_header Host $host`).
-- Вход не сохраняется — проверьте HTTPS и `SECRET_KEY`.
+- Вход не сохраняется — проверьте `SECRET_KEY`, системное время и заголовок
+  `X-Forwarded-Proto` на прокси.
 - Пустой сайт — все блоки могут быть выключены (`enabled: false`).
 
 ## Ограничения

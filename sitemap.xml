@@ -3,12 +3,12 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://srv.staff-rf.ru/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://srv.staff-rf.ru/assets/og-cover.png</image:loc>
-      <image:title>Staff RF — Табель, RAG-ассистент и MKT Monitoring</image:title>
+      <image:title>Staff RF — LLM V3, llm-doc, Табель и Табель Гибрид</image:title>
     </image:image>
     <image:image>
       <image:loc>https://srv.staff-rf.ru/assets/screens/tabel-reports.png</image:loc>
@@ -16,7 +16,7 @@
     </image:image>
     <image:image>
       <image:loc>https://srv.staff-rf.ru/assets/screens/llm-chat.png</image:loc>
-      <image:title>RAG-ассистент — чат с ответами по документации</image:title>
+      <image:title>llm-doc — чат с ответами по документации</image:title>
     </image:image>
     <image:image>
       <image:loc>https://srv.staff-rf.ru/assets/screens/mkt-grafana.png</image:loc>

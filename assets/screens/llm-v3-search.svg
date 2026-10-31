@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="t d">
+  <title id="t">LLM V3 — гибридный поиск</title>
+  <desc id="d">Место для скриншота гибридного поиска LLM V3</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1020"/>
+      <stop offset="1" stop-color="#102a43"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#06b6d4"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity=".05"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect x="140" y="120" width="1320" height="760" rx="32" fill="#0f172a" stroke="#ffffff" stroke-opacity=".14" stroke-width="2"/>
+  <rect x="140" y="120" width="1320" height="72" rx="32" fill="#ffffff" fill-opacity=".06"/>
+  <rect x="140" y="160" width="1320" height="32" fill="#ffffff" fill-opacity=".06"/>
+  <circle cx="190" cy="156" r="9" fill="#f87171"/>
+  <circle cx="220" cy="156" r="9" fill="#fbbf24"/>
+  <circle cx="250" cy="156" r="9" fill="#34d399"/>
+  <rect x="200" y="260" width="260" height="14" rx="7" fill="url(#accent)"/>
+  <text x="200" y="352" fill="#f8fafc" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">LLM V3</text>
+  <text x="200" y="414" fill="#93c5fd" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="34" font-weight="600">Гибридный поиск и LLM-судья</text>
+  <text x="200" y="486" fill="#94a3b8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="26">Dense + BM25 + RRF: смысл, артикулы, коды и точные совпадения.</text>
+  <rect x="200" y="560" width="1040" height="72" rx="18" fill="#ffffff" fill-opacity=".07" stroke="#ffffff" stroke-opacity=".12"/>
+  <text x="236" y="606" fill="#cbd5e1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24">Поиск по базе знаний…</text>
+  <rect x="200" y="672" width="760" height="14" rx="7" fill="#38bdf8" fill-opacity=".55"/>
+  <rect x="200" y="708" width="620" height="14" rx="7" fill="#38bdf8" fill-opacity=".35"/>
+  <rect x="200" y="744" width="880" height="14" rx="7" fill="#38bdf8" fill-opacity=".22"/>
+  <text x="200" y="820" fill="#64748b" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24">Скриншот будет добавлен</text>
+</svg>

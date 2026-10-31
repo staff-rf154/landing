@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="t d">
+  <title id="t">Табель Гибрид — интерфейс оператора</title>
+  <desc id="d">Место для скриншота интерфейса оператора «Табель Гибрид»</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#061a1e"/>
+      <stop offset="1" stop-color="#0b2f3a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#06b6d4"/>
+      <stop offset="1" stop-color="#22c55e"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#ffffff" stroke-opacity=".05"/>
+    </pattern>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <rect width="1600" height="1000" fill="url(#grid)"/>
+  <rect x="140" y="120" width="1320" height="760" rx="32" fill="#082f39" stroke="#ffffff" stroke-opacity=".14" stroke-width="2"/>
+  <rect x="140" y="120" width="1320" height="72" rx="32" fill="#ffffff" fill-opacity=".06"/>
+  <rect x="140" y="160" width="1320" height="32" fill="#ffffff" fill-opacity=".06"/>
+  <circle cx="190" cy="156" r="9" fill="#f87171"/>
+  <circle cx="220" cy="156" r="9" fill="#fbbf24"/>
+  <circle cx="250" cy="156" r="9" fill="#34d399"/>
+  <rect x="200" y="260" width="260" height="14" rx="7" fill="url(#accent)"/>
+  <text x="200" y="352" fill="#f0fdfa" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="64" font-weight="800">Табель Гибрид</text>
+  <text x="200" y="414" fill="#67e8f9" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="34" font-weight="600">Интерфейс оператора</text>
+  <text x="200" y="486" fill="#94a3b8" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="26">Сканирование QR, проверка данных и отметка с геолокацией.</text>
+  <rect x="200" y="560" width="240" height="240" rx="24" fill="#ffffff" fill-opacity=".07" stroke="#2dd4bf" stroke-opacity=".45" stroke-width="3"/>
+  <rect x="260" y="620" width="120" height="120" rx="12" fill="#2dd4bf" fill-opacity=".2" stroke="#2dd4bf" stroke-opacity=".6"/>
+  <text x="490" y="620" fill="#cbd5e1" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="26">Сотрудник</text>
+  <text x="490" y="672" fill="#f8fafc" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="38" font-weight="700">Иванов И. И.</text>
+  <rect x="490" y="710" width="620" height="70" rx="18" fill="url(#accent)" fill-opacity=".22" stroke="#22c55e" stroke-opacity=".5"/>
+  <text x="526" y="756" fill="#dcfce7" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24">Отметка прихода · геозона подтверждена</text>
+  <text x="200" y="880" fill="#64748b" font-family="Inter, Segoe UI, Arial, sans-serif" font-size="24">Скриншот будет добавлен</text>
+</svg>

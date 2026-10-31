@@ -6,11 +6,13 @@ import time
 import uuid
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 from fastapi import FastAPI, Form, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, PlainTextResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
 DATA_DIR = Path(os.environ.get("DATA_DIR", "/data"))
@@ -173,14 +175,53 @@ DEFAULTS: dict[str, dict[str, Any]] = {
 templates = Jinja2Templates(directory=str(Path(__file__).parent / "templates"))
 app = FastAPI(docs_url=None, redoc_url=None, openapi_url=None)
 
+
+class SecureSessionCookieMiddleware:
+    """Добавляет Secure к cookie сессии только при HTTPS.
+
+    За обратным прокси схема приходит в X-Forwarded-Proto, при прямом
+    обращении по HTTP cookie остаётся рабочей, но не помечается Secure.
+    """
+
+    def __init__(self, app):
+        self.app = app
+
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+
+        is_https = scope.get("scheme") == "https"
+        if not is_https:
+            for name, value in scope.get("headers", []):
+                if name.lower() == b"x-forwarded-proto":
+                    if value.split(b",")[0].strip().lower() == b"https":
+                        is_https = True
+                    break
+
+        async def send_wrapper(message):
+            if is_https and message["type"] == "http.response.start":
+                headers = []
+                for name, value in message.get("headers", []):
+                    if name.lower() == b"set-cookie" and b"sr_cms=" in value and b"; secure" not in value.lower():
+                        value += b"; secure"
+                    headers.append((name, value))
+                message["headers"] = headers
+            await send(message)
+
+        await self.app(scope, receive, send_wrapper)
+
+
 app.add_middleware(
     SessionMiddleware,
     secret_key=SECRET_KEY,
     session_cookie="sr_cms",
     max_age=7 * 24 * 3600,
     same_site="lax",
-    https_only=True,
+    https_only=False,
 )
+app.add_middleware(SecureSessionCookieMiddleware)
+app.add_middleware(GZipMiddleware, minimum_size=1024)
 
 _content_cache: dict[str, Any] = {"mtime": 0.0, "data": None}
 _attempts: dict[str, list[float]] = {}
@@ -195,9 +236,19 @@ async def security_headers(request: Request, call_next):
         if origin and origin not in own_origins and origin not in ALLOWED_ORIGINS:
             return JSONResponse({"detail": "Запрос с недопустимого источника"}, status_code=403)
     response = await call_next(request)
+    path = request.url.path
     response.headers.setdefault("X-Content-Type-Options", "nosniff")
     response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
     response.headers.setdefault("X-Frame-Options", "SAMEORIGIN")
+    response.headers.setdefault("Content-Language", "ru")
+    if path.startswith("/assets/") or path.startswith("/uploads/"):
+        response.headers.setdefault("Cache-Control", "public, max-age=2592000")
+    elif path in {"/robots.txt", "/sitemap.xml"}:
+        response.headers.setdefault("Cache-Control", "public, max-age=3600")
+    elif path == "/":
+        response.headers.setdefault("Cache-Control", "no-cache")
+    elif path.startswith("/admin") or path.startswith("/preview"):
+        response.headers.setdefault("Cache-Control", "no-store")
     return response
 
 
@@ -258,6 +309,22 @@ def site_base(request: Request) -> str:
     return (settings.get("canonical") or str(request.base_url)).rstrip("/")
 
 
+SITE_URL_RE = re.compile(r"https?://(?:srv\.staff-rf\.ru|staff-rf\.ru)(?=[/\"'\s<]|$)")
+
+
+def render_site_text(text: str, request: Request) -> str:
+    """Подставляет адрес сайта в шаблоны robots.txt и sitemap.xml.
+
+    Меняются только ссылки на домены проекта и строка Host, служебные
+    namespace-URL (sitemaps.org, schema.org) остаются нетронутыми.
+    """
+    base = site_base(request)
+    host = urlsplit(base).netloc or request.headers.get("host", "")
+    text = SITE_URL_RE.sub(base, text)
+    text = re.sub(r"(?m)^Host:\s*\S+\s*$", "Host: " + host, text)
+    return text
+
+
 def site_context(request: Request) -> dict[str, Any]:
     content = load_content()
     settings = content.get("settings", {})
@@ -288,6 +355,11 @@ async def index(request: Request):
     response = templates.TemplateResponse("site.html", site_context(request))
     response.headers["Cache-Control"] = "no-cache"
     return response
+
+
+@app.get("/index.html")
+async def legacy_index():
+    return RedirectResponse("/", status_code=301)
 
 
 @app.get("/preview", response_class=HTMLResponse)
@@ -409,15 +481,13 @@ async def app_js():
 @app.get("/robots.txt")
 async def robots(request: Request):
     text = (SITE_DIR / "robots.txt").read_text(encoding="utf-8")
-    text = re.sub(r"https?://[^/\s<]+", site_base(request), text)
-    return PlainTextResponse(text)
+    return PlainTextResponse(render_site_text(text, request))
 
 
 @app.get("/sitemap.xml")
 async def sitemap(request: Request):
     text = (SITE_DIR / "sitemap.xml").read_text(encoding="utf-8")
-    text = re.sub(r"https?://[^/\s<]+", site_base(request), text)
-    return PlainTextResponse(text, media_type="application/xml")
+    return PlainTextResponse(render_site_text(text, request), media_type="application/xml")
 
 
 @app.get("/" + INDEXNOW_KEY + ".txt")

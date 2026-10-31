@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ s.site_title }}</title>
   <meta name="description" content="{{ s.site_description }}">
-  <meta name="keywords" content="Staff RF, Табель, учёт рабочего времени, QR-табель, СКУД, отчёты Т-13, RAG, база знаний, LLM, Qdrant, Ollama, мониторинг MikroTik, MKT Monitoring, Grafana, Prometheus, Loki, Alertmanager, cAdvisor, Docker">
+  <meta name="keywords" content="Staff RF, LLM V3, llm-doc, RAG, enterprise-поиск, база знаний, LLM-судья, мультитенантность, Табель, Табель Гибрид, учёт рабочего времени, QR-табель, СКУД, отчёты Т-13, 1С, ES256, офлайн-очередь, мониторинг MikroTik, MKT Monitoring, Grafana, Prometheus, Loki, Alertmanager, Docker">
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <meta name="author" content="{{ s.brand }}">
   <meta name="theme-color" content="{{ s.bg }}">
@@ -66,13 +66,49 @@
         "@type": "WebPage",
         "@id": "{{ canonical }}#webpage",
         "url": "{{ canonical }}",
-        "name": "Staff RF — Табель, RAG-ассистент и MKT Monitoring",
-        "description": "Корпоративные системы: QR-учёт рабочего времени, локальный RAG-ассистент по документации и мониторинг MikroTik и серверов.",
+        "name": "Staff RF — LLM V3, llm-doc, Табель и Табель Гибрид",
+        "description": "Корпоративные системы: enterprise RAG-платформа LLM V3, лёгкий llm-doc на CPU, QR-учёт рабочего времени «Табель», гибридный табель с 1С и мониторинг MikroTik.",
         "inLanguage": "ru-RU",
         "isPartOf": { "@id": "{{ canonical }}#website" },
         "about": { "@id": "{{ canonical }}#organization" },
         "primaryImageOfPage": "{{ canonical }}assets/og-cover.png",
-        "dateModified": "2026-10-22"
+        "dateModified": "2026-10-31"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "LLM V3 — корпоративная платформа знаний",
+        "applicationCategory": "KnowledgeManagementApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Enterprise RAG-платформа: ответы по базе документов, гибридный поиск, LLM-судья, автообучение на исправлениях и мультитенантность для холдингов.",
+        "url": "{{ canonical }}#llm-v3",
+        "featureList": [
+          "Гибридный поиск Dense + BM25 + RRF",
+          "LLM-судья и проверка фактов",
+          "Автообучение на исправлениях",
+          "Мультитенантность для холдинга",
+          "Память вопросов и готовых ответов",
+          "PostgreSQL + Qdrant + Ollama",
+          "Фоновая индексация больших баз"
+        ],
+        "publisher": { "@id": "{{ canonical }}#organization" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "llm-doc — лёгкий RAG без GPU",
+        "applicationCategory": "KnowledgeManagementApplication",
+        "operatingSystem": "Linux, Docker",
+        "description": "Локальная RAG-платформа для среднего бизнеса: ответы по корпоративной документации с цитатами, гибридный поиск и автообучение на CPU без видеокарты.",
+        "url": "{{ canonical }}#llm",
+        "featureList": [
+          "Работа на CPU без GPU",
+          "Гибридный поиск dense + BM25",
+          "Reranker BAAI/bge-reranker-v2-m3",
+          "PDF, Office, EPUB, HTML и сайты",
+          "Цитаты и ссылки на документы и страницы",
+          "Тенанты, роли и автообучение",
+          "Переиндексация без простоя"
+        ],
+        "publisher": { "@id": "{{ canonical }}#organization" }
       },
       {
         "@type": "SoftwareApplication",
@@ -94,19 +130,19 @@
       },
       {
         "@type": "SoftwareApplication",
-        "name": "RAG-ассистент по внутренней документации",
-        "applicationCategory": "KnowledgeManagementApplication",
+        "name": "Табель Гибрид — самоотметки и интеграция с 1С",
+        "applicationCategory": "BusinessApplication",
         "operatingSystem": "Linux, Docker",
-        "description": "Локальная RAG-платформа: ответы на вопросы по корпоративной документации с цитатами и ссылками на источники, гибридный поиск, автообучение и кабинет администратора.",
-        "url": "{{ canonical }}#llm",
+        "description": "Гибридная система табелирования: QR с подписью ES256, самоотметки с геолокацией, офлайн-очередь, автозакрытие смен, пропуска и REST API для 1С.",
+        "url": "{{ canonical }}#tabel-hybrid",
         "featureList": [
-          "Гибридный поиск dense + BM25",
-          "Переранжирование и синонимы",
-          "PDF, Office, EPUB, HTML и сайты",
-          "Цитаты и ссылки на документы и страницы",
-          "Исправления, уроки и автообучение",
-          "Локальная LLM без внешних сервисов",
-          "Prometheus-метрики и readiness"
+          "Криптографическая защита QR ES256",
+          "Идемпотентность отметок",
+          "Автозакрытие смен",
+          "Офлайн-очередь в мобильном приложении",
+          "Пропуска формата банковской карты",
+          "REST API и справочники для 1С",
+          "Веб-панели администратора и оператора"
         ],
         "publisher": { "@id": "{{ canonical }}#organization" }
       },

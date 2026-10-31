@@ -1,0 +1,8 @@
+.git
+.backup
+screen
+content
+cms.env
+.venv
+__pycache__
+*.pyc
